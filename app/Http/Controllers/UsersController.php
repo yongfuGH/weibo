@@ -18,5 +18,20 @@ class UsersController extends Controller
 //        return view('users.show', ['user' => $user]);
     }
 
+    /**
+     * 注册
+     * @param Request $request
+     * @return null
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+           'name' => 'required|unique:users|max:50',
+           'email' => 'required|email|unique:users|max:255',
+           'password' => 'required|confirmed|max:6'
+        ]);
+        return null;
+    }
 
 }
