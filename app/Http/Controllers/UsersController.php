@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'shore']
+        ]);
+
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     public function create()
     {
         return view('users.create');
@@ -46,11 +57,13 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
     public function update(User $user,Request $request)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
             'password' => 'nullable|confirmed|min:6'
