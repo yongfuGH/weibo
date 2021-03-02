@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     use HasFactory;
+    protected $fillable = ['content'];
 
     public function user()
     {
