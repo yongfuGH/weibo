@@ -15,6 +15,16 @@ use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:2,1', [ // 一分钟内只能访问两次
+            'only' => ['showLinkRequestForm', 'showLinkRequestForm']
+        ]);
+        $this->middleware('throttle:3,10', [ // 十分钟内访问三次
+            'only' => ['sendResetLinkEmail']
+        ]);
+    }
+
     public function showLinkRequestForm()
     {
         return view('auth.passwords.email');
